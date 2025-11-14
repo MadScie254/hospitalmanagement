@@ -1,80 +1,362 @@
 {% extends 'hospital/homebase.html' %}
 {% load static %}
-<!--
-written By : sumit kumar
-facebook : fb.com/sumit.luv
--->
-
 
 {% block content %}
-
-
 <head>
+  <link rel="stylesheet" href="{% static 'modern-style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style media="screen">
-    .jumbotron {
-      margin-top: 0px;
-      margin-bottom: 0px;
-      background-image: url('{% static "images/bg.jpg" %}');
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, rgba(74, 144, 226, 0.95), rgba(53, 122, 189, 0.95)),
+                  url('{% static "images/bg.jpg" %}');
       background-size: cover;
-      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 80px 20px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .jumbotron h5,
-    h3 {
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 4px 8px rgba(0,0,0,0.3);
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+      opacity: 0.95;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn {
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-btn-primary {
+      background: white;
+      color: #4A90E2;
+    }
+
+    .hero-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+      color: #357ABD;
+    }
+
+    .hero-btn-outline {
+      background: transparent;
+      color: white;
+      border: 3px solid white;
+    }
+
+    .hero-btn-outline:hover {
+      background: white;
+      color: #4A90E2;
+      transform: translateY(-3px);
+    }
+
+    /* Features Section */
+    .features-section {
+      padding: 80px 20px;
+      background: #f8f9fa;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #2C3E50;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #7F8C8D;
+      font-size: 1.2rem;
+      margin-bottom: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s;
       text-align: center;
     }
 
-
-    .alert {
-      margin: 0px;
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
     }
 
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: white;
+    }
 
+    .feature-icon.blue {
+      background: linear-gradient(135deg, #4A90E2, #357ABD);
+    }
 
-    .glow {
-      font-size: 50px;
+    .feature-icon.green {
+      background: linear-gradient(135deg, #50C878, #3FA765);
+    }
+
+    .feature-icon.purple {
+      background: linear-gradient(135deg, #9B59B6, #8E44AD);
+    }
+
+    .feature-icon.orange {
+      background: linear-gradient(135deg, #FFA726, #FB8C00);
+    }
+
+    .feature-icon.red {
+      background: linear-gradient(135deg, #EF5350, #E53935);
+    }
+
+    .feature-icon.teal {
+      background: linear-gradient(135deg, #26A69A, #00897B);
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #2C3E50;
+      margin-bottom: 1rem;
+    }
+
+    .feature-description {
+      color: #7F8C8D;
+      line-height: 1.6;
+    }
+
+    /* Emergency Section */
+    .emergency-section {
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #EF5350, #E53935);
       color: white;
       text-align: center;
-      -webkit-animation: glow 1s ease-in-out infinite alternate;
-      -moz-animation: glow 1s ease-in-out infinite alternate;
-      animation: glow 1s ease-in-out infinite alternate;
     }
 
-    @-webkit-keyframes glow {
-      from {
-        text-shadow: 0 0 10px #eeeeee, 0 0 20px #000000, 0 0 30px #000000, 0 0 40px #000000, 0 0 50px #9554b3, 0 0 60px #9554b3, 0 0 70px #9554b3;
-      }
+    .emergency-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
 
+    .emergency-text {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+
+    .emergency-btn {
+      background: white;
+      color: #EF5350;
+      padding: 16px 40px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+      animation: pulse 2s infinite;
+    }
+
+    .emergency-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+      color: #C62828;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
       to {
-        text-shadow: 0 0 20px #eeeeee, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .section-title {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
-<br>
-<br>
 
-<div class="jumbotron" style="margin-bottom: 0px;margin-top: 0px;">
-  <br>
-  <h5 class="display-3 glow">You’ll Love the Way We Care for You</h5>
-  <br><br><br><br><br>
-  <p>
-  <h3>Emergency ?</h3>
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Welcome to HealthCare Plus</h1>
+    <p class="hero-subtitle">Your Health, Our Priority - Experience Excellence in Medical Care</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn-primary" href="/patientclick">
+        <i class="fas fa-calendar-check"></i>
+        Book Appointment
+      </a>
+      <a class="hero-btn hero-btn-outline" href="/aboutus">
+        <i class="fas fa-info-circle"></i>
+        Learn More
+      </a>
+    </div>
+  </div>
+</section>
 
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="/patientclick" role="button">Take Appointment</a>
-  </p>
-  <br><br>
-</div>
+<!-- Features Section -->
+<section class="features-section">
+  <h2 class="section-title">Why Choose Us?</h2>
+  <p class="section-subtitle">Comprehensive healthcare solutions for you and your family</p>
+  
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon blue">
+        <i class="fas fa-user-md"></i>
+      </div>
+      <h3 class="feature-title">Expert Doctors</h3>
+      <p class="feature-description">Experienced specialists across multiple departments ready to serve you</p>
+    </div>
 
-<br><br><br><br>
+    <div class="feature-card">
+      <div class="feature-icon green">
+        <i class="fas fa-hospital-alt"></i>
+      </div>
+      <h3 class="feature-title">Modern Facilities</h3>
+      <p class="feature-description">State-of-the-art equipment and comfortable patient rooms</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon purple">
+        <i class="fas fa-clock"></i>
+      </div>
+      <h3 class="feature-title">24/7 Service</h3>
+      <p class="feature-description">Round-the-clock medical care for all emergencies</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon orange">
+        <i class="fas fa-pills"></i>
+      </div>
+      <h3 class="feature-title">Pharmacy</h3>
+      <p class="feature-description">In-house pharmacy with all essential medications</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon red">
+        <i class="fas fa-ambulance"></i>
+      </div>
+      <h3 class="feature-title">Emergency Care</h3>
+      <p class="feature-description">Quick response team for critical medical situations</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon teal">
+        <i class="fas fa-heartbeat"></i>
+      </div>
+      <h3 class="feature-title">Patient Care</h3>
+      <p class="feature-description">Compassionate care tailored to your individual needs</p>
+    </div>
+  </div>
+</section>
+
+<!-- Emergency Section -->
+<section class="emergency-section">
+  <h2 class="emergency-title">Medical Emergency?</h2>
+  <p class="emergency-text">Get immediate medical attention from our expert team</p>
+  <a class="emergency-btn" href="/patientclick">
+    <i class="fas fa-plus-circle"></i>
+    Book Emergency Appointment
+  </a>
+</section>
 
 {% include "hospital/admin_doctor_patient_card.html" %}
-<br><br><br>
-<!--
-developed By : sumit kumar
-facebook : fb.com/sumit.luv
-youtube : youtube.com/lazycoders
--->
 
 {% endblock content %}
