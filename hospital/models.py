@@ -217,6 +217,7 @@ class Appointment(BaseModel):
         help_text='Doctor for appointment'
     )
     appointment_date = models.DateTimeField(
+        default=timezone.now,
         help_text='Date and time of appointment'
     )
     description = models.TextField(
