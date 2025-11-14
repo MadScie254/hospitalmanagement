@@ -33,8 +33,8 @@ departments = [
 
 class BaseModel(models.Model):
     """Abstract base model with common fields"""
-    created_at = models.DateTimeField(auto_now_add=True, default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True, default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True, db_index=True)
     
     class Meta:
