@@ -1,65 +1,126 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <style type="text/css">
-    .bs-example {
-      margin: 0px;
-
+    .modern-navbar {
+      background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     .navbar-brand {
-      font-size: 20px;
-      font-family: sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: 'Segoe UI', sans-serif;
+      color: white !important;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
 
+    .navbar-brand:hover {
+      transform: scale(1.05);
+    }
+
+    .navbar-brand i {
+      font-size: 1.75rem;
+    }
+
+    .navbar-nav .nav-link {
+      color: rgba(255,255,255,0.9) !important;
+      font-weight: 500;
+      padding: 0.5rem 1rem !important;
+      margin: 0 0.25rem;
+      border-radius: 8px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .navbar-nav .nav-link:hover {
+      background: rgba(255,255,255,0.2);
+      color: white !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link i {
+      font-size: 1.1rem;
+    }
+
+    .navbar-toggler {
+      border: 2px solid white;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    @media (max-width: 768px) {
+      .navbar-collapse {
+        background: rgba(0,0,0,0.1);
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+      }
     }
   </style>
 </head>
 
 <body>
-
-
-
-  <div class="bs-example">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background:#337AB7;">
-      <a href="/" class="navbar-brand">Hospital Management</a>
+  <nav class="navbar navbar-expand-lg navbar-dark modern-navbar">
+    <div class="container-fluid">
+      <a href="/" class="navbar-brand">
+        <i class="fas fa-hospital-alt"></i>
+        <span>HealthCare Plus</span>
+      </a>
+      
       <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
         <div class="navbar-nav">
-
-          <a href="/adminclick" class="nav-item nav-link">Admin</a>
-          <a href="/doctorclick" class="nav-item nav-link">Doctor</a>
-          <a href="/patientclick" class="nav-item nav-link">Patient</a>
-
-
+          <a href="/adminclick" class="nav-link">
+            <i class="fas fa-user-shield"></i>
+            <span>Admin</span>
+          </a>
+          <a href="/doctorclick" class="nav-link">
+            <i class="fas fa-user-md"></i>
+            <span>Doctor</span>
+          </a>
+          <a href="/patientclick" class="nav-link">
+            <i class="fas fa-user-injured"></i>
+            <span>Patient</span>
+          </a>
         </div>
 
         <div class="navbar-nav">
-          <a href="/aboutus" class="nav-item nav-link">About Us</a>
-          <a href="/contactus" class="nav-item nav-link">Contact Us</a>
+          <a href="/aboutus" class="nav-link">
+            <i class="fas fa-info-circle"></i>
+            <span>About Us</span>
+          </a>
+          <a href="/contactus" class="nav-link">
+            <i class="fas fa-envelope"></i>
+            <span>Contact Us</span>
+          </a>
         </div>
-
       </div>
-    </nav>
-  </div>
-
-  <!--
-  developed By : sumit kumar
-  facebook : fb.com/sumit.luv
-  youtube : youtube.com/lazycoders
-  -->
-
+    </div>
+  </nav>
 </body>
-
 </html>
