@@ -88,8 +88,13 @@ def patient_signup_view(request):
             user.save()
             patient=patientForm.save(commit=False)
             patient.user=user
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
-            patient=patient.save()
+            
+            # Fix: Assign ForeignKey directly
+            assigned_doctor_id = request.POST.get('assignedDoctorId')
+            if assigned_doctor_id:
+                patient.assigned_doctor = models.Doctor.objects.get(user_id=assigned_doctor_id)
+            
+            patient.save()
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
         return HttpResponseRedirect('patientlogin')
@@ -324,7 +329,12 @@ def update_patient_view(request,pk):
             user.save()
             patient=patientForm.save(commit=False)
             patient.status=True
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
+            
+            # Fix: Assign ForeignKey directly
+            assigned_doctor_id = request.POST.get('assignedDoctorId')
+            if assigned_doctor_id:
+                patient.assigned_doctor = models.Doctor.objects.get(user_id=assigned_doctor_id)
+            
             patient.save()
             return redirect('admin-view-patient')
     return render(request,'hospital/admin_update_patient.html',context=mydict)
@@ -350,7 +360,12 @@ def admin_add_patient_view(request):
             patient=patientForm.save(commit=False)
             patient.user=user
             patient.status=True
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
+            
+            # Fix: Assign ForeignKey directly
+            assigned_doctor_id = request.POST.get('assignedDoctorId')
+            if assigned_doctor_id:
+                patient.assigned_doctor = models.Doctor.objects.get(user_id=assigned_doctor_id)
+            
             patient.save()
 
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
@@ -430,19 +445,21 @@ def discharge_patient_view(request,pk):
         patientDict.update(feeDict)
         #for updating to database patientDischargeDetails (pDD)
         pDD=models.PatientDischargeDetails()
+        pDD.patient=patient # Fix: Assign ForeignKey
         pDD.patientId=pk
         pDD.patientName=patient.get_name
+        pDD.assigned_doctor=assignedDoctor[0].doctor_profile # Fix: Assign ForeignKey
         pDD.assignedDoctorName=assignedDoctor[0].first_name
         pDD.address=patient.address
         pDD.mobile=patient.mobile
         pDD.symptoms=patient.symptoms
-        pDD.admitDate=patient.admitDate
-        pDD.releaseDate=date.today()
-        pDD.daySpent=int(d)
-        pDD.medicineCost=int(request.POST['medicineCost'])
-        pDD.roomCharge=int(request.POST['roomCharge'])*int(d)
-        pDD.doctorFee=int(request.POST['doctorFee'])
-        pDD.OtherCharge=int(request.POST['OtherCharge'])
+        pDD.admit_date=patient.admitDate # Fix: Use correct field name
+        pDD.release_date=date.today() # Fix: Use correct field name
+        pDD.day_spent=int(d) # Fix: Use correct field name
+        pDD.medicine_cost=int(request.POST['medicineCost']) # Fix: Use correct field name
+        pDD.room_charge=int(request.POST['roomCharge'])*int(d) # Fix: Use correct field name
+        pDD.doctor_fee=int(request.POST['doctorFee']) # Fix: Use correct field name
+        pDD.other_charge=int(request.POST['OtherCharge']) # Fix: Use correct field name
         pDD.total=(int(request.POST['roomCharge'])*int(d))+int(request.POST['doctorFee'])+int(request.POST['medicineCost'])+int(request.POST['OtherCharge'])
         pDD.save()
         return render(request,'hospital/patient_final_bill.html',context=patientDict)
@@ -515,10 +532,16 @@ def admin_add_appointment_view(request):
         appointmentForm=forms.AppointmentForm(request.POST)
         if appointmentForm.is_valid():
             appointment=appointmentForm.save(commit=False)
-            appointment.doctorId=request.POST.get('doctorId')
-            appointment.patientId=request.POST.get('patientId')
-            appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
-            appointment.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
+            
+            # Fix: Assign ForeignKeys directly
+            doctor_user_id = request.POST.get('doctorId')
+            patient_user_id = request.POST.get('patientId')
+            
+            if doctor_user_id:
+                appointment.doctor = models.Doctor.objects.get(user_id=doctor_user_id)
+            if patient_user_id:
+                appointment.patient = models.Patient.objects.get(user_id=patient_user_id)
+                
             appointment.status=True
             appointment.save()
         return HttpResponseRedirect('admin-view-appointment')
@@ -732,13 +755,15 @@ def patient_book_appointment_view(request):
             print(request.POST.get('doctorId'))
             desc=request.POST.get('description')
 
-            doctor=models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
+            doctor_user_id = request.POST.get('doctorId')
             
             appointment=appointmentForm.save(commit=False)
-            appointment.doctorId=request.POST.get('doctorId')
-            appointment.patientId=request.user.id #----user can choose any patient but only their info will be stored
-            appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
-            appointment.patientName=request.user.first_name #----user can choose any patient but only their info will be stored
+            
+            # Fix: Assign ForeignKeys directly
+            if doctor_user_id:
+                appointment.doctor = models.Doctor.objects.get(user_id=doctor_user_id)
+            
+            appointment.patient = request.user.patient_profile # Fix: Assign current patient
             appointment.status=False
             appointment.save()
         return HttpResponseRedirect('patient-view-appointment')
