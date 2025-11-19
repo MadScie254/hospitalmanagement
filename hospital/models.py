@@ -208,13 +208,15 @@ class Appointment(BaseModel):
         Patient,
         on_delete=models.CASCADE,
         related_name='appointments',
-        help_text='Patient for appointment'
+        help_text='Patient for appointment',
+        null=True
     )
     doctor = models.ForeignKey(
         Doctor,
         on_delete=models.CASCADE,
         related_name='appointments',
-        help_text='Doctor for appointment'
+        help_text='Doctor for appointment',
+        null=True
     )
     appointment_date = models.DateTimeField(
         default=timezone.now,
@@ -268,7 +270,8 @@ class PatientDischargeDetails(BaseModel):
         Patient,
         on_delete=models.CASCADE,
         related_name='discharge_records',
-        help_text='Patient being discharged'
+        help_text='Patient being discharged',
+        null=True
     )
     assigned_doctor = models.ForeignKey(
         Doctor,
